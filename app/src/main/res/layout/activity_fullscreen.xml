@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="#0099cc"
@@ -11,13 +11,18 @@
          TextureView, etc. -->
     <TextView android:id="@+id/fullscreen_content"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:keepScreenOn="true"
               android:textColor="#33b5e5"
               android:textStyle="bold"
               android:textSize="50sp"
               android:gravity="center"
               android:text="@string/dummy_content"/>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:id="@+id/imageView3"/>
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
@@ -55,6 +60,7 @@
 
 
         </LinearLayout>
+
     </FrameLayout>
 
 </FrameLayout>

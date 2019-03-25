@@ -60,6 +60,13 @@ class FullscreenActivity : AppCompatActivity() {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         rock.setOnTouchListener(mDelayHideTouchListener)
+        paper.setOnTouchListener(mDelayHideTouchListener)
+        scissors.setOnTouchListener(mDelayHideTouchListener)
+
+        rock.setOnClickListner{
+            fullscreen_content.setText("Hello Rock")
+        }
+
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

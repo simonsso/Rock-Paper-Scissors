@@ -132,39 +132,56 @@ class FullscreenActivity : AppCompatActivity() {
         mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
     }
 
-    private fun playgame(i:Int) {
+    private fun playgame(youplay:Int) {
       //rock.visibility = View.INVISIBLE
       //paper.visibility = View.INVISIBLE
       //scissors.visibility = View.INVISIBLE
+        playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
+
         Thread {
             Thread.sleep(1000)
-            fullscreen_content.setText("I Play...")
-            playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
+            this@FullscreenActivity.runOnUiThread {
+                fullscreen_content.setText("I Play...")
+                playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName))
+            }
             Thread.sleep(2000)
             val iplay = (1..3).random()
-            when(iplay) {
-                1 -> {
-                    fullscreen_content.setText("I Play Rock")
-                    playimage.setImageResource(resources.getIdentifier("rock", "drawable", packageName) )
+            this@FullscreenActivity.runOnUiThread {
+                when (iplay) {
+                    1 -> {
+                        fullscreen_content.setText("I Play Rock")
+                        playimage.setImageResource(resources.getIdentifier("rock", "drawable", packageName) )
+
+                    }
+                    2 -> {
+                        fullscreen_content.setText("I Play Paper")
+                        playimage.setImageResource(resources.getIdentifier("paper", "drawable", packageName) )
+
+                    }
+                    3 -> {
+                        fullscreen_content.setText("I Play Scissors")
+                        playimage.setImageResource(resources.getIdentifier("scissors", "drawable", packageName) )
+
+                    }
+                    else -> {
+                        playimage.setImageResource(resources.getIdentifier("sample/backgrounds/scenic", "tools", packageName) )
+                    }
 
                 }
-                2 -> {
-                    fullscreen_content.setText("I Play Paper")
-                    playimage.setImageResource(resources.getIdentifier("paper", "drawable", packageName) )
-
-                }
-                3 -> {
-                    fullscreen_content.setText("I Play Scissors")
-                    playimage.setImageResource(resources.getIdentifier("scissors", "drawable", packageName) )
-
-                }
-                else -> {
-                  //  playimage.setImageResource(resources.getIdentifier("sample/backgrounds/scenic", "tools", packageName) )
-                }
-
             }
             Thread.sleep(1000)
-            fullscreen_content.setText("I Win...")
+
+            // Game logic
+
+            val youwin = ((iplay+1) %3 == youplay % 3 )
+            val iwin = (iplay %3 == (youplay+1) % 3 )
+            this@FullscreenActivity.runOnUiThread  {
+                when{
+                    iwin  -> {fullscreen_content.setText("I Win")   }
+                    youwin-> {fullscreen_content.setText("You Win") }
+                    else  -> {fullscreen_content.setText("It's a Tie") }
+                }
+            }
             Thread.sleep(1000)
             //rock.visibility = View.VISIBLE
             //paper.visibility = View.VISIBLE
@@ -172,19 +189,6 @@ class FullscreenActivity : AppCompatActivity() {
             // i = 1 rock
             //     2 paper
             //     3 scissors
-            when(i) {
-                1 -> {
-
-
-                }
-                2 -> {
-                }
-                3 -> {
-                }
-                else -> {
-                }
-
-            }
             }.start()
     }
 

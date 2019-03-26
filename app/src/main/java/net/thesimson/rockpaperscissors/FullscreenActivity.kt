@@ -133,11 +133,12 @@ class FullscreenActivity : AppCompatActivity() {
     }
 
     private fun playgame(youplay:Int) {
-      //rock.visibility = View.INVISIBLE
-      //paper.visibility = View.INVISIBLE
-      //scissors.visibility = View.INVISIBLE
+        rock.visibility = View.INVISIBLE
+        paper.visibility = View.INVISIBLE
+        scissors.visibility = View.INVISIBLE
         playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
 
+        var lock=1
         Thread {
             Thread.sleep(1000)
             this@FullscreenActivity.runOnUiThread {
@@ -166,30 +167,32 @@ class FullscreenActivity : AppCompatActivity() {
                     else -> {
                         playimage.setImageResource(resources.getIdentifier("sample/backgrounds/scenic", "tools", packageName) )
                     }
-
                 }
             }
             Thread.sleep(1000)
-
             // Game logic
-
             val youwin = ((iplay+1) %3 == youplay % 3 )
-            val iwin = (iplay %3 == (youplay+1) % 3 )
+            val iwin =   (iplay %3 == (youplay+1) % 3 )
+
             this@FullscreenActivity.runOnUiThread  {
                 when{
                     iwin  -> {fullscreen_content.setText("I Win")   }
                     youwin-> {fullscreen_content.setText("You Win") }
                     else  -> {fullscreen_content.setText("It's a Tie") }
                 }
+                rock.visibility = View.VISIBLE
+                paper.visibility = View.VISIBLE
+                scissors.visibility = View.VISIBLE
             }
-            Thread.sleep(1000)
-            //rock.visibility = View.VISIBLE
-            //paper.visibility = View.VISIBLE
-            //scissors.visibility = View.VISIBLE
-            // i = 1 rock
-            //     2 paper
-            //     3 scissors
-            }.start()
+            lock = 0
+            Thread.sleep(5000)
+            if (lock == 0) {
+                this@FullscreenActivity.runOnUiThread {
+                    fullscreen_content.setText("Get ready player one!")
+                    playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName))
+                }
+            }
+        }.start()
     }
 
     companion object {

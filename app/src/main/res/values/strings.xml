@@ -2,9 +2,12 @@
     <string name="app_name">Rock Paper Scissors</string>
 
     <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="playagame">Shall we play a game?</string>
     <string name="rock">rock</string>
     <string name="paper">paper</string>
     <string name="scissors">scissors</string>
     <string name="todo">TODO</string>
+    <string name="iwin">I win</string>
+    <string name="youwin">You win</string>
+    <string name="itsatie">It\'s a tie</string>
 </resources>

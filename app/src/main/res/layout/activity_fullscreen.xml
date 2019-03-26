@@ -21,7 +21,7 @@
                   android:textStyle="bold"
                   android:textSize="50sp"
                   android:gravity="center"
-                  android:text="@string/dummy_content"/>
+                  android:text="@string/playagame"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         </LinearLayout>
         <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="358dp" tools:srcCompat="@drawable/iconmonstr"
+                android:layout_height="match_parent" tools:srcCompat="@drawable/iconmonstr"
                 android:id="@+id/playimage" android:contentDescription="@string/todo"/>
         </LinearLayout>
 </FrameLayout>

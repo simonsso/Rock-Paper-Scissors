@@ -29,7 +29,7 @@ class FullscreenActivity : AppCompatActivity() {
     private val mShowPart2Runnable = Runnable {
         // Delayed display of UI elements
         supportActionBar?.show()
-        fullscreen_content_controls.visibility = View.VISIBLE
+     //   fullscreen_content_controls.visibility = View.VISIBLE
     }
     private var mVisible: Boolean = false
     private val mHideRunnable = Runnable { hide() }
@@ -63,9 +63,23 @@ class FullscreenActivity : AppCompatActivity() {
         paper.setOnTouchListener(mDelayHideTouchListener)
         scissors.setOnTouchListener(mDelayHideTouchListener)
 
-        rock.setOnClickListner{
-            fullscreen_content.setText("Hello Rock")
+        rock.setOnClickListener{
+            fullscreen_content.setText("You Played Rock")
+            playimage.setImageResource(resources.getIdentifier("rock", "drawable", packageName) )
+            playgame(1)
+
         }
+        paper.setOnClickListener{
+            fullscreen_content.setText("You Played Paper")
+            playimage.setImageResource(resources.getIdentifier("paper", "drawable", packageName) )
+            playgame(2 )
+        }
+        scissors.setOnClickListener{
+            fullscreen_content.setText("You played Scissors")
+            playimage.setImageResource(resources.getIdentifier("scissors", "drawable", packageName) )
+            playgame(3)
+        }
+        supportActionBar?.setHomeButtonEnabled(true)
 
     }
 
@@ -89,7 +103,7 @@ class FullscreenActivity : AppCompatActivity() {
     private fun hide() {
         // Hide UI first
         supportActionBar?.hide()
-        fullscreen_content_controls.visibility = View.GONE
+//        fullscreen_content_controls.visibility = View.GONE
         mVisible = false
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -116,6 +130,62 @@ class FullscreenActivity : AppCompatActivity() {
     private fun delayedHide(delayMillis: Int) {
         mHideHandler.removeCallbacks(mHideRunnable)
         mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
+    }
+
+    private fun playgame(i:Int) {
+      //rock.visibility = View.INVISIBLE
+      //paper.visibility = View.INVISIBLE
+      //scissors.visibility = View.INVISIBLE
+        Thread {
+            Thread.sleep(1000)
+            fullscreen_content.setText("I Play...")
+            playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
+            Thread.sleep(2000)
+            val iplay = (1..3).random()
+            when(iplay) {
+                1 -> {
+                    fullscreen_content.setText("I Play Rock")
+                    playimage.setImageResource(resources.getIdentifier("rock", "drawable", packageName) )
+
+                }
+                2 -> {
+                    fullscreen_content.setText("I Play Paper")
+                    playimage.setImageResource(resources.getIdentifier("paper", "drawable", packageName) )
+
+                }
+                3 -> {
+                    fullscreen_content.setText("I Play Scissors")
+                    playimage.setImageResource(resources.getIdentifier("scissors", "drawable", packageName) )
+
+                }
+                else -> {
+                  //  playimage.setImageResource(resources.getIdentifier("sample/backgrounds/scenic", "tools", packageName) )
+                }
+
+            }
+            Thread.sleep(1000)
+            fullscreen_content.setText("I Win...")
+            Thread.sleep(1000)
+            //rock.visibility = View.VISIBLE
+            //paper.visibility = View.VISIBLE
+            //scissors.visibility = View.VISIBLE
+            // i = 1 rock
+            //     2 paper
+            //     3 scissors
+            when(i) {
+                1 -> {
+
+
+                }
+                2 -> {
+                }
+                3 -> {
+                }
+                else -> {
+                }
+
+            }
+            }.start()
     }
 
     companion object {

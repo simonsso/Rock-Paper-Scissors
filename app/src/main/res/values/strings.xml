@@ -6,4 +6,5 @@
     <string name="rock">rock</string>
     <string name="paper">paper</string>
     <string name="scissors">scissors</string>
+    <string name="todo">TODO</string>
 </resources>

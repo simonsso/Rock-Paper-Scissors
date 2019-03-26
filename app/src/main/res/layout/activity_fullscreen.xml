@@ -9,36 +9,23 @@
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <TextView android:id="@+id/fullscreen_content"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:keepScreenOn="true"
-              android:textColor="#33b5e5"
-              android:textStyle="bold"
-              android:textSize="50sp"
-              android:gravity="center"
-              android:text="@string/dummy_content"/>
-
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:srcCompat="@tools:sample/backgrounds/scenic"
-            android:id="@+id/imageView3"/>
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:fitsSystemWindows="true">
-
-        <LinearLayout android:id="@+id/fullscreen_content_controls"
-                      style="?metaButtonBarStyle"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="bottom|center_horizontal"
-                      android:background="@color/black_overlay"
-                      android:orientation="horizontal"
-                      tools:ignore="UselessParent">
-
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView android:id="@+id/fullscreen_content"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:keepScreenOn="true"
+                  android:textColor="#33b5e5"
+                  android:textStyle="bold"
+                  android:textSize="50sp"
+                  android:gravity="center"
+                  android:text="@string/dummy_content"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="96dp">
             <Button android:id="@+id/rock"
                     style="?metaButtonBarButtonStyle"
                     android:layout_width="0dp"
@@ -57,10 +44,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/scissors"/>
-
-
         </LinearLayout>
-
-    </FrameLayout>
-
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="358dp" tools:srcCompat="@drawable/iconmonstr"
+                android:id="@+id/playimage" android:contentDescription="@string/todo"/>
+        </LinearLayout>
 </FrameLayout>

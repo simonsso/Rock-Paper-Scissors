@@ -90,22 +90,21 @@ class FullscreenActivity : AppCompatActivity() {
                 Thread.sleep(500)
                 this@FullscreenActivity.runOnUiThread {
                     watchDog +=1
-                    when (watchDog ) {
-                     20 ->{
-                         paper.startAnimation(myAnim)
-                         scissors.startAnimation(myAnim)
-                         rock.startAnimation(myAnim)
-                     }
-
-                     17 ->   {
-                            fullscreen_content.setText("Get ready player one!")
-                            playimage.setImageResource(
-                                resources.getIdentifier(
-                                    "iconmonstr",
-                                    "drawable",
-                                    packageName
+                    when  {
+                        (watchDog % 20) == 0->{
+                             paper.startAnimation(myAnim)
+                             scissors.startAnimation(myAnim)
+                             rock.startAnimation(myAnim)
+                        }
+                        watchDog == 17 ->   {
+                                fullscreen_content.setText("Get ready player one!")
+                                playimage.setImageResource(
+                                    resources.getIdentifier(
+                                        "iconmonstr",
+                                        "drawable",
+                                        packageName
+                                    )
                                 )
-                            )
 
                         }
                     }

@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import kotlinx.android.synthetic.main.activity_fullscreen.*
+import kotlin.concurrent.thread
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 class FullscreenActivity : AppCompatActivity() {
+    var watchDog = 0
     private val mHideHandler = Handler()
     private val mHidePart2Runnable = Runnable {
         // Delayed removal of status and navigation bar
@@ -64,6 +66,7 @@ class FullscreenActivity : AppCompatActivity() {
         scissors.setOnTouchListener(mDelayHideTouchListener)
 
         rock.setOnClickListener{
+            rock.animate()
             fullscreen_content.setText("You Played Rock")
             playimage.setImageResource(resources.getIdentifier("rock", "drawable", packageName) )
             playgame(1)
@@ -80,7 +83,24 @@ class FullscreenActivity : AppCompatActivity() {
             playgame(3)
         }
         supportActionBar?.setHomeButtonEnabled(true)
-
+        Thread{
+            while (true){
+                Thread.sleep(500)
+                this@FullscreenActivity.runOnUiThread {
+                    watchDog -=1
+                    if (watchDog == 0) {
+                        fullscreen_content.setText("Get ready player one!")
+                        playimage.setImageResource(
+                            resources.getIdentifier(
+                                "iconmonstr",
+                                "drawable",
+                                packageName
+                            )
+                        )
+                    }
+                }
+            }
+        }.start()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -137,8 +157,7 @@ class FullscreenActivity : AppCompatActivity() {
         paper.visibility = View.INVISIBLE
         scissors.visibility = View.INVISIBLE
         playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
-
-        var lock=1
+        watchDog = 17
         Thread {
             Thread.sleep(1000)
             this@FullscreenActivity.runOnUiThread {
@@ -173,24 +192,22 @@ class FullscreenActivity : AppCompatActivity() {
             // Game logic
             val youwin = ((iplay+1) %3 == youplay % 3 )
             val iwin =   (iplay %3 == (youplay+1) % 3 )
-
-            this@FullscreenActivity.runOnUiThread  {
-                when{
-                    iwin  -> {fullscreen_content.setText("I Win")   }
-                    youwin-> {fullscreen_content.setText("You Win") }
-                    else  -> {fullscreen_content.setText("It's a Tie") }
+            this@FullscreenActivity.runOnUiThread {
+                when {
+                    iwin -> {
+                        fullscreen_content.setText("I Win")
+                    }
+                    youwin -> {
+                        fullscreen_content.setText("You Win")
+                    }
+                    else -> {
+                        fullscreen_content.setText("It's a Tie")
+                    }
                 }
                 rock.visibility = View.VISIBLE
                 paper.visibility = View.VISIBLE
+
                 scissors.visibility = View.VISIBLE
-            }
-            lock = 0
-            Thread.sleep(5000)
-            if (lock == 0) {
-                this@FullscreenActivity.runOnUiThread {
-                    fullscreen_content.setText("Get ready player one!")
-                    playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName))
-                }
             }
         }.start()
     }

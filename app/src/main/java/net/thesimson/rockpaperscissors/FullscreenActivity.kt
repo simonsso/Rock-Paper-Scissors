@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_fullscreen.*
 import kotlin.concurrent.thread
 
@@ -53,6 +54,7 @@ class FullscreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val myAnim = AnimationUtils.loadAnimation(this, R.anim.milkshake);
         mVisible = true
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -87,16 +89,25 @@ class FullscreenActivity : AppCompatActivity() {
             while (true){
                 Thread.sleep(500)
                 this@FullscreenActivity.runOnUiThread {
-                    watchDog -=1
-                    if (watchDog == 0) {
-                        fullscreen_content.setText("Get ready player one!")
-                        playimage.setImageResource(
-                            resources.getIdentifier(
-                                "iconmonstr",
-                                "drawable",
-                                packageName
+                    watchDog +=1
+                    when (watchDog ) {
+                     20 ->{
+                         paper.startAnimation(myAnim)
+                         scissors.startAnimation(myAnim)
+                         rock.startAnimation(myAnim)
+                     }
+
+                     17 ->   {
+                            fullscreen_content.setText("Get ready player one!")
+                            playimage.setImageResource(
+                                resources.getIdentifier(
+                                    "iconmonstr",
+                                    "drawable",
+                                    packageName
+                                )
                             )
-                        )
+
+                        }
                     }
                 }
             }
@@ -157,7 +168,7 @@ class FullscreenActivity : AppCompatActivity() {
         paper.visibility = View.INVISIBLE
         scissors.visibility = View.INVISIBLE
         playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
-        watchDog = 17
+        watchDog = 0
         Thread {
             Thread.sleep(1000)
             this@FullscreenActivity.runOnUiThread {

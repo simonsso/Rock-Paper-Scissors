@@ -4,9 +4,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_fullscreen.*
-import kotlin.concurrent.thread
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -54,8 +55,13 @@ class FullscreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fullscreen)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val myAnim = AnimationUtils.loadAnimation(this, R.anim.milkshake);
+        val shakeAnim = AnimationUtils.loadAnimation(this, R.anim.milkshake);
         mVisible = true
+
+        val fadeinAnim = AlphaAnimation(0.0f,1.0f)
+        fadeinAnim.duration = 10000;
+        fadeinAnim.repeatMode = Animation.REVERSE
+        fadeinAnim.repeatCount = Animation.INFINITE
 
         // Set up the user interaction to manually show or hide the system UI.
         fullscreen_content.setOnClickListener { toggle() }
@@ -84,6 +90,7 @@ class FullscreenActivity : AppCompatActivity() {
             playimage.setImageResource(resources.getIdentifier("scissors", "drawable", packageName) )
             playgame(3)
         }
+
         supportActionBar?.setHomeButtonEnabled(true)
         Thread{
             while (true){
@@ -92,20 +99,20 @@ class FullscreenActivity : AppCompatActivity() {
                     watchDog +=1
                     when  {
                         (watchDog % 20) == 0->{
-                             paper.startAnimation(myAnim)
-                             scissors.startAnimation(myAnim)
-                             rock.startAnimation(myAnim)
+                             paper.startAnimation(shakeAnim)
+                             scissors.startAnimation(shakeAnim)
+                             rock.startAnimation(shakeAnim)
                         }
                         watchDog == 17 ->   {
-                                fullscreen_content.setText("Get ready player one!")
-                                playimage.setImageResource(
-                                    resources.getIdentifier(
-                                        "iconmonstr",
-                                        "drawable",
-                                        packageName
-                                    )
+                            fullscreen_content.setText("Get ready player one!")
+                            playimage.setImageResource(
+                                resources.getIdentifier(
+                                    "iconmonstr",
+                                    "drawable",
+                                    packageName
                                 )
-
+                            )
+                            playimage.startAnimation(fadeinAnim)
                         }
                     }
                 }
@@ -166,9 +173,20 @@ class FullscreenActivity : AppCompatActivity() {
         rock.visibility = View.INVISIBLE
         paper.visibility = View.INVISIBLE
         scissors.visibility = View.INVISIBLE
+        val fadeOutAnim = AlphaAnimation(1.0f,0.6f)
+        fadeOutAnim.duration= 1500
+
+        val fadeInAnim = AlphaAnimation(0.6f,1.0f)
+        fadeInAnim.duration= 1000
+
+
+
         playimage.setImageResource(resources.getIdentifier("iconmonstr", "drawable", packageName) )
         watchDog = 0
         Thread {
+            this@FullscreenActivity.runOnUiThread {
+                playimage.clearAnimation()
+            }
             Thread.sleep(1000)
             this@FullscreenActivity.runOnUiThread {
                 fullscreen_content.setText("I Play...")
@@ -197,12 +215,14 @@ class FullscreenActivity : AppCompatActivity() {
                         playimage.setImageResource(resources.getIdentifier("sample/backgrounds/scenic", "tools", packageName) )
                     }
                 }
+                fullscreen_content.startAnimation(fadeOutAnim)
             }
-            Thread.sleep(1000)
+            Thread.sleep(1500)
             // Game logic
             val youwin = ((iplay+1) %3 == youplay % 3 )
             val iwin =   (iplay %3 == (youplay+1) % 3 )
             this@FullscreenActivity.runOnUiThread {
+                fullscreen_content.startAnimation(fadeInAnim)
                 when {
                     iwin -> {
                         fullscreen_content.setText("I Win")
@@ -216,7 +236,6 @@ class FullscreenActivity : AppCompatActivity() {
                 }
                 rock.visibility = View.VISIBLE
                 paper.visibility = View.VISIBLE
-
                 scissors.visibility = View.VISIBLE
             }
         }.start()

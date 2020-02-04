@@ -39,10 +39,3 @@ jobs:
         with:
           name: app
           path: app/build/outputs/apk/debug/app-debug.apk
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          # Artifact name
-          name: app-debug.apk
-          # Directory containing files to upload
-          path: app/build/outputs/apk/debug/app-debug.apk

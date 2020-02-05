@@ -1,7 +1,6 @@
 name: Android Release
 
 on:
-  pull_request:
   push:
     tags:
       - '*'
